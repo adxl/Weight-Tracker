@@ -14,7 +14,7 @@ public class User {
   private String username;
   @NotNull
   private String password;
-
+  @NotNull
   private String name;
 
   private List<WeightEntry> entries;
@@ -22,7 +22,7 @@ public class User {
   public User(String username,String password,String name) {
 	this.username=username;
 	this.password=password;
-	this.name=name;
+	this.name=String.valueOf(name.charAt(0)).toUpperCase()+(name.substring(1)).toLowerCase();
 	entries=new ArrayList<>();
   }
 
