@@ -3,6 +3,8 @@ package com.adxl.weighttracker.controllers;
 import com.adxl.weighttracker.models.User;
 import com.adxl.weighttracker.models.WeightEntry;
 import com.adxl.weighttracker.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,10 +13,13 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
+  private final PasswordEncoder passwordEncoder;
+
   private UserRepository userRepo;
 
-  public UserController(UserRepository userRepo) {
+  public UserController(UserRepository userRepo,PasswordEncoder passwordEncoder) {
 	this.userRepo=userRepo;
+	this.passwordEncoder=passwordEncoder;
   }
 
   @GetMapping("/u")
@@ -30,7 +35,10 @@ public class UserController {
   @PostMapping("/u/new")
   public void addUser(@RequestBody @Valid User user) {
 	if(userRepo.findById(user.getUsername()).isEmpty())
+	{
+	  user.setPassword(passwordEncoder.encode(user.getPassword()));
 	  userRepo.save(user);
+	}
   }
 
   @PostMapping("/u/{id}/e/new")

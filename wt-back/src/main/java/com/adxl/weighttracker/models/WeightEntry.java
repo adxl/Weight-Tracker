@@ -8,7 +8,8 @@ public class WeightEntry {
   private double value;
   private Date date;
 
-  public WeightEntry(){}
+  public WeightEntry() {
+  }
 
   public WeightEntry(double value) {
 	this.value=value;
