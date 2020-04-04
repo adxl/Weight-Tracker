@@ -28,4 +28,9 @@ public class WeightEntry {
   public Date getDate() {
 	return date;
   }
+
+  @Override
+  public String toString() {
+	return "WeightEntry{"+"'value='"+value+"','date='"+date+"'}";
+  }
 }

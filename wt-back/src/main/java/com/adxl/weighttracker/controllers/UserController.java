@@ -48,7 +48,10 @@ public class UserController {
 	//noinspection OptionalIsPresent
 	if(user.isPresent())
 	{
-	  user.get().addEntry(entry);
+	  var newEntry=entry;
+	  if(entry.getDate()==null)
+		newEntry=new WeightEntry(entry.getValue());
+	  user.get().addEntry(newEntry);
 	  userRepo.save(user.get());
 	}
   }
