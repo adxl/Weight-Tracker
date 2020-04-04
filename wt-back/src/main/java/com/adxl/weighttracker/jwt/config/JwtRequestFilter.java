@@ -51,10 +51,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			{
 				System.out.println("JWT Token has expired");
 			}
-		} else
+		} /*else
 		{
 			logger.warn("JWT Token is null");
-		}
+		}*/
 
 		// validation
 		if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null)
