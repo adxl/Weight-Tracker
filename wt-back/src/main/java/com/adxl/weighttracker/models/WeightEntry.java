@@ -1,5 +1,6 @@
 package com.adxl.weighttracker.models;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class WeightEntry {
@@ -7,9 +8,11 @@ public class WeightEntry {
   private double value;
   private Date date;
 
+  public WeightEntry(){}
+
   public WeightEntry(double value) {
 	this.value=value;
-	this.date=new Date();
+	this.date=Calendar.getInstance().getTime();
   }
 
   public WeightEntry(double value,Date date) {

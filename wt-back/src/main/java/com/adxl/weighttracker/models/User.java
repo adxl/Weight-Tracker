@@ -19,6 +19,8 @@ public class User {
 
   private List<WeightEntry> entries;
 
+  public User(){}
+
   public User(String username,String password,String name) {
 	this.username=username;
 	this.password=password;

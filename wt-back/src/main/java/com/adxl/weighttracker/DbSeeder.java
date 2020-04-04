@@ -13,6 +13,7 @@ public class DbSeeder implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-	System.out.println(userRepo.findAll());
+//    userRepo.deleteAll();
+//	System.out.println(userRepo.findAll());
   }
 }
