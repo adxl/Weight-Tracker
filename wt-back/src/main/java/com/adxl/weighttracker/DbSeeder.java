@@ -2,7 +2,9 @@ package com.adxl.weighttracker;
 
 import com.adxl.weighttracker.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DbSeeder implements CommandLineRunner {
 
   UserRepository userRepo;
@@ -13,7 +15,10 @@ public class DbSeeder implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-//    userRepo.deleteAll();
-//	System.out.println(userRepo.findAll());
+	//  userRepo.deleteAll();
+	System.out.println(userRepo.findAll());
   }
+
+
+
 }

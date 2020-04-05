@@ -45,13 +45,35 @@ public class UserController {
   public void addEntry(@PathVariable String id,@RequestBody WeightEntry entry) {
 	var user=userRepo.findById(id);
 
-	//noinspection OptionalIsPresent
-	if(user.isPresent())
+	if(entry.getDate()==null)
+	  entry.setDate();
+
+	if(user.isPresent() && !user.get().hasEntry(entry))
 	{
-	  var newEntry=entry;
-	  if(entry.getDate()==null)
-		newEntry=new WeightEntry(entry.getValue());
-	  user.get().addEntry(newEntry);
+	  user.get().addEntry(entry);
+	  userRepo.save(user.get());
+	}
+  }
+
+  @PostMapping("/u/{id}/e/edit")
+  public void editEntry(@PathVariable String id,@RequestBody WeightEntry[] entries) {
+	var user=userRepo.findById(id);
+	var oldEntry=entries[0];
+	var newEntry=entries[1];
+
+	if(user.isPresent() && user.get().hasEntry(oldEntry))
+	{
+	  user.get().editEntry(oldEntry,newEntry);
+	  userRepo.save(user.get());
+	}
+  }
+
+  @DeleteMapping("/u/{id}/e/delete")
+  public void deleteEntry(@PathVariable String id,@RequestBody WeightEntry entry) {
+	var user=userRepo.findById(id);
+	if(user.isPresent() && user.get().hasEntry(entry))
+	{
+	  user.get().deleteEntry(entry);
 	  userRepo.save(user.get());
 	}
   }

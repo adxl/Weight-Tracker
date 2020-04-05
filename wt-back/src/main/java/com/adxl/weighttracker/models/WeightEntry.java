@@ -29,6 +29,20 @@ public class WeightEntry {
 	return date;
   }
 
+  public void setDate() {
+	this.date=Calendar.getInstance().getTime();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+	if(o.getClass()==getClass())
+	{
+	  WeightEntry e=((WeightEntry)o);
+	  return (this.value==e.getValue() && this.date.compareTo(e.getDate())==0);
+	}
+	return false;
+  }
+
   @Override
   public String toString() {
 	return "WeightEntry{"+"'value='"+value+"','date='"+date+"'}";

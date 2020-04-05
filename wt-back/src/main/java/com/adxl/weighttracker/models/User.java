@@ -54,19 +54,12 @@ public class User {
 	entries.remove(entry);
   }
 
-  public void deleteEntry(int index) {
-	entries.remove(index);
+  public boolean hasEntry(WeightEntry entry) {
+	return entries.contains(entry);
   }
 
   public WeightEntry editEntry(WeightEntry entry,WeightEntry newEntry) {
 	var index=entries.indexOf(entry);
-	entries.set(index,newEntry);
-
-	return entry;
-  }
-
-  public WeightEntry editEntry(int index,WeightEntry newEntry) {
-	var entry=entries.get(index);
 	entries.set(index,newEntry);
 
 	return entry;
@@ -78,6 +71,6 @@ public class User {
 
   @Override
   public String toString() {
-	return "{username:'"+username+"',name'"+name+"',entries:"+entries.size()+"}";
+	return "User{"+"'username:'"+username+"','name:'"+name+"','entries:'"+entries.size()+"'}";
   }
 }
