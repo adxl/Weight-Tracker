@@ -71,6 +71,6 @@ public class User {
 
   @Override
   public String toString() {
-	return "User{"+"'username:'"+username+"','name:'"+name+"','entries:'"+entries.size()+"'}";
+	return "User{"+"'username:'"+username+"','entries:'"+entries.size()+"'}";
   }
 }

@@ -77,4 +77,15 @@ public class UserController {
 	  userRepo.save(user.get());
 	}
   }
+
+  @DeleteMapping("/u/{id}/e/clear")
+  public void clearEntries(@PathVariable String id)
+  {
+    var user=userRepo.findById(id);
+    if(user.isPresent())
+	{
+	  user.get().clearEntries();
+	  userRepo.save(user.get());
+	}
+  }
 }
