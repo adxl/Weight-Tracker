@@ -4,10 +4,13 @@ import com.adxl.weighttracker.models.User;
 import com.adxl.weighttracker.models.WeightEntry;
 import com.adxl.weighttracker.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 @RestController
@@ -22,15 +25,20 @@ public class UserController {
 	this.passwordEncoder=passwordEncoder;
   }
 
-  @GetMapping("/u")
+  @GetMapping("/u/all")
   public Iterable<User> getAllUsers() {
 	return userRepo.findAll();
   }
 
-  @GetMapping("/u/{id}")
-  public Optional<User> getUserById(@PathVariable String id) {
-	return userRepo.findById(id);
+
+  /* ------------------------------------------------------------------------------------------- */
+
+  @GetMapping("/u/")
+  public /*Optional<User>*/ void getUserFromToken(Authentication auth) {
+	System.out.println(auth);
   }
+
+  /* ------------------------------------------------------------------------------------------- */
 
   @PostMapping("/u/new")
   public void addUser(@RequestBody @Valid User user) {
@@ -79,10 +87,9 @@ public class UserController {
   }
 
   @DeleteMapping("/u/{id}/e/clear")
-  public void clearEntries(@PathVariable String id)
-  {
-    var user=userRepo.findById(id);
-    if(user.isPresent())
+  public void clearEntries(@PathVariable String id) {
+	var user=userRepo.findById(id);
+	if(user.isPresent())
 	{
 	  user.get().clearEntries();
 	  userRepo.save(user.get());
