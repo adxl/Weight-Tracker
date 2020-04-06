@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,22 +27,21 @@ public class UserController {
 	this.passwordEncoder=passwordEncoder;
   }
 
-  @GetMapping("/u/all")
-  public Iterable<User> getAllUsers() {
-	return userRepo.findAll();
+  /*@GetMapping("/u/all/")
+  public Iterable<String> getAllUsers() {
+	List<String> names=new ArrayList<>();
+
+	for(User user : userRepo.findAll())
+	  names.add(user.getUsername());
+	return names;
+  }*/
+
+  @GetMapping("/u/") // tested
+  public Optional<User> getUserFromToken(Authentication auth) {
+	return userRepo.findById(auth.getName());
   }
 
-
-  /* ------------------------------------------------------------------------------------------- */
-
-  @GetMapping("/u/")
-  public /*Optional<User>*/ void getUserFromToken(Authentication auth) {
-	System.out.println(auth);
-  }
-
-  /* ------------------------------------------------------------------------------------------- */
-
-  @PostMapping("/u/new")
+  @PostMapping("/register") // tested
   public void addUser(@RequestBody @Valid User user) {
 	if(userRepo.findById(user.getUsername()).isEmpty())
 	{
@@ -49,9 +50,9 @@ public class UserController {
 	}
   }
 
-  @PostMapping("/u/{id}/e/new")
-  public void addEntry(@PathVariable String id,@RequestBody WeightEntry entry) {
-	var user=userRepo.findById(id);
+  @PostMapping("/u/e/new/") // tested
+  public void addEntry(Authentication auth,@RequestBody WeightEntry entry) {
+	var user=userRepo.findById(auth.getName());
 
 	if(entry.getDate()==null)
 	  entry.setDate();
@@ -63,9 +64,9 @@ public class UserController {
 	}
   }
 
-  @PostMapping("/u/{id}/e/edit")
-  public void editEntry(@PathVariable String id,@RequestBody WeightEntry[] entries) {
-	var user=userRepo.findById(id);
+  @PostMapping("/u/e/edit/") // tested
+  public void editEntry(Authentication auth,@RequestBody WeightEntry[] entries) {
+	var user=userRepo.findById(auth.getName());
 	var oldEntry=entries[0];
 	var newEntry=entries[1];
 
@@ -76,9 +77,9 @@ public class UserController {
 	}
   }
 
-  @DeleteMapping("/u/{id}/e/delete")
-  public void deleteEntry(@PathVariable String id,@RequestBody WeightEntry entry) {
-	var user=userRepo.findById(id);
+  @DeleteMapping("/u/e/delete/") // tested
+  public void deleteEntry(Authentication auth,@RequestBody WeightEntry entry) {
+	var user=userRepo.findById(auth.getName());
 	if(user.isPresent() && user.get().hasEntry(entry))
 	{
 	  user.get().deleteEntry(entry);
@@ -86,9 +87,9 @@ public class UserController {
 	}
   }
 
-  @DeleteMapping("/u/{id}/e/clear")
-  public void clearEntries(@PathVariable String id) {
-	var user=userRepo.findById(id);
+  @DeleteMapping("/u/e/clear/") // tested
+  public void clearEntries(Authentication auth) {
+	var user=userRepo.findById(auth.getName());
 	if(user.isPresent())
 	{
 	  user.get().clearEntries();
