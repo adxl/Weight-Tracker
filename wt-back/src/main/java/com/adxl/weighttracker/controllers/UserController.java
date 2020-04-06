@@ -3,24 +3,18 @@ package com.adxl.weighttracker.controllers;
 import com.adxl.weighttracker.models.User;
 import com.adxl.weighttracker.models.WeightEntry;
 import com.adxl.weighttracker.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class UserController {
 
   private final PasswordEncoder passwordEncoder;
-
-  private UserRepository userRepo;
+  private final UserRepository userRepo;
 
   public UserController(UserRepository userRepo,PasswordEncoder passwordEncoder) {
 	this.userRepo=userRepo;
