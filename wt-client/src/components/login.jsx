@@ -19,6 +19,7 @@ export default class Login extends Component {
 					<p>Not a member?
 						<Link to={'/register'}> Register</Link>
 					</p>
+					<hr/>
 				</form>
 			</div>
 		);
