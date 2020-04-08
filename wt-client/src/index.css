@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.login-container, .register-container {
+  margin: 0 35%;
+}
