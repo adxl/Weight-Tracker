@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,21 +23,21 @@ public class UserController {
 	this.passwordEncoder=passwordEncoder;
   }
 
-  /*@GetMapping("/u/all/")
+  @GetMapping("/u/all/")
   public Iterable<String> getAllUsers() {
 	List<String> names=new ArrayList<>();
 
 	for(User user : userRepo.findAll())
 	  names.add(user.getUsername());
 	return names;
-  }*/
+  }
 
   @GetMapping("/u/") // tested
   public Optional<User> getUserFromToken(Authentication auth) {
 	return userRepo.findById(auth.getName());
   }
 
-  @PostMapping("/register") // tested
+  @PostMapping("/register/") // tested
   public void addUser(@RequestBody @Valid User user) {
 	if(userRepo.findById(user.getUsername()).isEmpty())
 	{
