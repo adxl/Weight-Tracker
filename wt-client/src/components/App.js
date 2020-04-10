@@ -6,6 +6,7 @@ import {BrowserRouter,Route} from 'react-router-dom';
 function App() {
 	return (
 		<BrowserRouter>
+			<Route path='/' exact component={Login}/>
 			<Route path='/login' component={Login} />
 			<Route path='/register' component={Register} />
 		</BrowserRouter>
