@@ -39,8 +39,7 @@ export default class Login extends Component {
 				const { token } = data;
 				if (token) {
 					localStorage.setItem('token',token);
-					
-					console.log('my token: ' + localStorage.getItem('token'));	
+					window.location.replace('http://localhost:3000/');	
 				}
 				else console.log('Wrong Credentials');
 				
