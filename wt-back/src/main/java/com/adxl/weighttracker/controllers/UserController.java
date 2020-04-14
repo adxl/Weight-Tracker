@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class UserController {
 
@@ -30,11 +30,16 @@ public class UserController {
 
 	for(User user : userRepo.findAll())
 	  names.add(user.getUsername());
+
+	System.out.println("ALL");
+
 	return names;
   }
 
   @GetMapping("/u/") // tested
   public Optional<User> getUserFromToken(Authentication auth) {
+
+	System.out.println("User:"+auth.getName());
 	return userRepo.findById(auth.getName());
   }
 
