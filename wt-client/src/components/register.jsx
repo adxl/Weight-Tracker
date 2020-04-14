@@ -24,6 +24,7 @@ export default class Register extends Component {
 		case 'password':
 			this.setState({ password: value});
 			break;
+		default: //this should never happen
 		}
 	} 
 
