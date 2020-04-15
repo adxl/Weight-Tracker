@@ -62,6 +62,12 @@ class Home extends Component {
 	}
 
 	render() { 
+		const { user } = this.state;
+		let entries;
+		if (user !== null && user.entries.length > 0) {
+			entries = user.entries;
+			entries.reverse();
+		}
 		return (
 			<React.Fragment>
 				<button onClick={this.logout}>Log out</button>
@@ -72,7 +78,15 @@ class Home extends Component {
 					{this.state.value > 0 && <button onClick={this.addEntry}>Add</button>}
 				</div>
 				<div>
-					{ this.state.user !== null && this.state.user.entries.length > 0 && this.state.user.entries.map((entry,i) => <li key={i}>{entry.date}: {entry.value}Kg</li>)}
+					<ul>
+						{entries && entries.length > 0 && user.entries.map((entry,i) =>
+							<li key={i}>
+								{entry.date.toString().substring(11,/*10*/19)}: {entry.value}Kg
+								<button>Edit</button>
+								<button>Delete</button>
+							</li>
+						)}
+					</ul>
 				</div>
 				<button onClick={this.clearEntries} >Clear all</button>
 			</React.Fragment>);
