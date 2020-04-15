@@ -3,11 +3,8 @@ import React,{ Component } from 'react';
 class Home extends Component {
 
 	state = {
-		user: {
-			name: '',
-			entries: []
-		},
-		value: 0
+		user: null,
+		value: null
 	}
 
 	componentDidMount() {
@@ -15,13 +12,14 @@ class Home extends Component {
 	}
 
 	async fetchUser() {
-		let response = await fetch('http://localhost:8080/u/',{
+		await fetch('http://localhost:8080/u/',{
 			headers: {
 				Authorization: localStorage.getItem('token')
 			}
-		});
-		let data = await response.json();
-		this.setState({ user: data });
+		})
+			.then(response => response.json())
+			.then(data => this.setState({user: data},this.render))
+			.catch(error => console.log('Oops: \n' + error));
 	}
 
 	logout = () => {
@@ -34,7 +32,7 @@ class Home extends Component {
 		this.setState({value});
 	}
 
-	addEntry = e => {
+	addEntry = () => {
 		const value = {
 			value: this.state.value
 		};
@@ -43,29 +41,40 @@ class Home extends Component {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': localStorage.getItem('token')
+				Authorization: localStorage.getItem('token')
 			},
 			body: JSON.stringify(value) 
 		})
-			.then(this.fetchUser())
+			.then(async fun => await this.fetchUser())
 			.then(console.log(this.state.user.entries.length))
 			.catch(error => console.log(error));
-	
+	}
+
+	clearEntries = () => {
+		fetch('http://localhost:8080/u/e/clear/',{
+			method: 'DELETE',
+			headers: {
+				Authorization:localStorage.getItem('token')
+			}
+		})
+			.then(async fun => await this.fetchUser())
+			.catch(error => console.log(error));
 	}
 
 	render() { 
 		return (
 			<React.Fragment>
 				<button onClick={this.logout}>Log out</button>
-				<h1>Welcome home, {this.state.user.name}.</h1>
+				<h1>Welcome home, {this.state.user !== null && this.state.user.name}.</h1>
 				<div>
 					<label>Enter weight</label>
 					<input type="text" onChange={this.handleInputChange} />
 					{this.state.value > 0 && <button onClick={this.addEntry}>Add</button>}
 				</div>
 				<div>
-					{this.state.user.entries.length > 0 && this.state.user.entries.map((entry,i) => <li key={i}>{entry.date}: {entry.value}Kg</li>)}
+					{ this.state.user !== null && this.state.user.entries.length > 0 && this.state.user.entries.map((entry,i) => <li key={i}>{entry.date}: {entry.value}Kg</li>)}
 				</div>
+				<button onClick={this.clearEntries} >Clear all</button>
 			</React.Fragment>);
 	}
 }
