@@ -50,6 +50,22 @@ class Home extends Component {
 			.catch(error => console.log(error));
 	}
 
+	deleteEntry = entry => {
+
+		console.log(JSON.stringify(entry));
+
+		fetch('http://localhost:8080/u/e/delete/',{
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: localStorage.getItem('token')
+			},
+			body: JSON.stringify(entry)
+		})
+			.then(async fun => await this.fetchUser())
+			.catch(error => console.log(error));
+	}
+
 	clearEntries = () => {
 		fetch('http://localhost:8080/u/e/clear/',{
 			method: 'DELETE',
@@ -83,7 +99,7 @@ class Home extends Component {
 							<li key={i}>
 								{entry.date.toString().substring(11,/*10*/19)}: {entry.value}Kg
 								<button>Edit</button>
-								<button>Delete</button>
+								<button onClick={() => this.deleteEntry(entry)}>Delete</button>
 							</li>
 						)}
 					</ul>
