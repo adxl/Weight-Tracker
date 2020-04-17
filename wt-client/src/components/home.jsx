@@ -5,7 +5,8 @@ class Home extends Component {
 	state = {
 		user: null,
 		value: '',
-		date: ''
+		date: '',
+		today: ''
 	}
 
 	componentDidMount() {
@@ -98,7 +99,7 @@ class Home extends Component {
 		const year = date.getFullYear();
 
 		const today = year + '-' + month + '-' + day;
-		this.setState({date : today});
+		this.setState({date: today,today});
 	}
 
 	render() { 
@@ -116,7 +117,7 @@ class Home extends Component {
 				<div>
 					<label>Enter weight</label>
 					<input type="text" value={this.state.value} onChange={this.handleInputChange} />
-					<input type="date" value={this.state.date} onChange={this.handleDateChange} />
+					<input type="date" value={this.state.date} max={this.state.today} onChange={this.handleDateChange} />
 					{this.state.value > 0 && <button onClick={this.addEntry}>Add</button>}
 				</div>
 				<div>
