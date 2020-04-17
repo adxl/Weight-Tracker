@@ -30,20 +30,17 @@ class Home extends Component {
 	}
 
 	handleInputChange = e => {
-		const { value } = e.target;
-		this.setState({ value });
+		this.setState({ value: e.target.value });
 	}
 	
 	handleDateChange = e => {
-		
-		const { value } = e.target;
-		this.setState({ date: value });
-		console.log(value);	
+		this.setState({ date: e.target.value });
 	}
 
 	addEntry = () => {
-		const value = {
-			value: this.state.value
+		const body = {
+			value: this.state.value,
+			date: this.state.date
 		};
 
 		fetch('http://localhost:8080/u/e/new/',{
@@ -52,7 +49,7 @@ class Home extends Component {
 				'Content-Type': 'application/json',
 				Authorization: localStorage.getItem('token')
 			},
-			body: JSON.stringify(value) 
+			body: JSON.stringify(body) 
 		})
 			.then(async fun => await this.fetchUser())
 			.then(() => {
@@ -85,7 +82,7 @@ class Home extends Component {
 			.catch(error => console.log(error));
 	}
 
-	setDate() {
+	setDate = () => {
 		if (this.state.date)
 			return this.state.day;
 		
