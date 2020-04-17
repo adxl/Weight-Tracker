@@ -4,11 +4,13 @@ class Home extends Component {
 
 	state = {
 		user: null,
-		value: null
+		value: '',
+		date: ''
 	}
 
 	componentDidMount() {
 		this.fetchUser();
+		this.setDate();
 	}
 
 	async fetchUser() {
@@ -28,8 +30,15 @@ class Home extends Component {
 	}
 
 	handleInputChange = e => {
-		const {value} = e.target;
-		this.setState({value});
+		const { value } = e.target;
+		this.setState({ value });
+	}
+	
+	handleDateChange = e => {
+		
+		const { value } = e.target;
+		this.setState({ date: value });
+		console.log(value);	
 	}
 
 	addEntry = () => {
@@ -46,14 +55,13 @@ class Home extends Component {
 			body: JSON.stringify(value) 
 		})
 			.then(async fun => await this.fetchUser())
-			.then(console.log(this.state.user.entries.length))
+			.then(() => {
+				this.setState({value: ''});
+			})
 			.catch(error => console.log(error));
 	}
 
 	deleteEntry = entry => {
-
-		console.log(JSON.stringify(entry));
-
 		fetch('http://localhost:8080/u/e/delete/',{
 			method: 'DELETE',
 			headers: {
@@ -77,28 +85,48 @@ class Home extends Component {
 			.catch(error => console.log(error));
 	}
 
+	setDate() {
+		if (this.state.date)
+			return this.state.day;
+		
+		const date = new Date();
+		let day = date.getDate();
+		if (day < 10) 
+			day = '0' + day;
+		
+		let month = date.getMonth() + 1;
+		if (month < 10) 
+			month = '0' + month;
+		
+		const year = date.getFullYear();
+
+		const today = year + '-' + month + '-' + day;
+		this.setState({date : today});
+	}
+
 	render() { 
 		const { user } = this.state;
 		let entries;
 		if (user !== null && user.entries.length > 0) {
-			entries = user.entries;
+			entries = [...user.entries];
 			entries.reverse();
 		}
+
 		return (
 			<React.Fragment>
 				<button onClick={this.logout}>Log out</button>
 				<h1>Welcome home, {this.state.user !== null && this.state.user.name}.</h1>
 				<div>
 					<label>Enter weight</label>
-					<input type="text" onChange={this.handleInputChange} />
+					<input type="text" value={this.state.value} onChange={this.handleInputChange} />
+					<input type="date" value={this.state.date} onChange={this.handleDateChange} />
 					{this.state.value > 0 && <button onClick={this.addEntry}>Add</button>}
 				</div>
 				<div>
 					<ul>
-						{entries && entries.length > 0 && user.entries.map((entry,i) =>
+						{entries && entries.length > 0 && entries.map((entry,i) =>
 							<li key={i}>
-								{entry.date.toString().substring(11,/*10*/19)}: {entry.value}Kg
-								<button>Edit</button>
+								{entry.date.toString().substring(0,10)}: {entry.value}Kg
 								<button onClick={() => this.deleteEntry(entry)}>Delete</button>
 							</li>
 						)}
