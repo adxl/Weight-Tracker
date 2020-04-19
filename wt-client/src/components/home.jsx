@@ -6,7 +6,8 @@ class Home extends Component {
 		user: null,
 		value: '',
 		date: '',
-		today: ''
+		today: '',
+		url: 'noUrl'
 	}
 
 	componentDidMount() {
@@ -21,7 +22,10 @@ class Home extends Component {
 			}
 		})
 			.then(response => response.json())
-			.then(data => this.setState({user: data},this.render))
+			.then(data => {
+				this.setState({ user: data });
+				this.prepareData(JSON.stringify(data.entries));
+			})
 			.catch(error => console.log('Oops: \n' + error));
 	}
 
@@ -83,6 +87,18 @@ class Home extends Component {
 			.catch(error => console.log(error));
 	}
 
+	prepareData = data => {
+
+		const file = new Blob([data],{ type: 'json' });
+		const url = URL.createObjectURL(file);
+
+		this.setState({url});
+		
+		console.log('file:  ',file);
+		console.log(url);
+		
+	}
+
 	setDate = () => {
 		if (this.state.date)
 			return this.state.day;
@@ -131,6 +147,9 @@ class Home extends Component {
 					</ul>
 				</div>
 				<button onClick={this.clearEntries} >Clear all</button>
+				<button onClick={this.saveData} >
+					<a download="entries.json" href={this.state.url}>Save data</a>
+				</button>
 			</React.Fragment>);
 	}
 }
