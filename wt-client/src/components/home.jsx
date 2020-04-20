@@ -1,4 +1,5 @@
 import React,{ Component } from 'react';
+import Chart from './chart';
 
 class Home extends Component {
 
@@ -88,15 +89,10 @@ class Home extends Component {
 	}
 
 	prepareData = data => {
-
 		const file = new Blob([data],{ type: 'json' });
 		const url = URL.createObjectURL(file);
 
 		this.setState({url});
-		
-		console.log('file:  ',file);
-		console.log(url);
-		
 	}
 
 	setDate = () => {
@@ -128,28 +124,43 @@ class Home extends Component {
 
 		return (
 			<React.Fragment>
-				<button onClick={this.logout}>Log out</button>
-				<h1>Welcome home, {this.state.user !== null && this.state.user.name}.</h1>
-				<div>
-					<label>Enter weight</label>
-					<input type="text" value={this.state.value} onChange={this.handleInputChange} />
-					<input type="date" value={this.state.date} max={this.state.today} onChange={this.handleDateChange} />
-					{this.state.value > 0 && <button onClick={this.addEntry}>Add</button>}
+				<nav className="navbar navbar-dark bg-dark">
+					<span className="navbar-brand mb-0 h1">Navbar</span>
+					<button onClick={this.logout}>Log out</button>
+				</nav>
+				<div className="container">
+					<h1>Welcome home, {this.state.user !== null && this.state.user.name}.</h1>
+					
+					<div className="data-container">
+						<div>
+							<label>Enter weight</label>
+							<input type="text" value={this.state.value} onChange={this.handleInputChange} />
+							<input type="date" value={this.state.date} max={this.state.today} onChange={this.handleDateChange} />
+							{this.state.value > 0 && <button onClick={this.addEntry}>Add</button>}
+						</div>
+						
+						<div>
+							<ol>
+								{entries && entries.length > 0 && entries.map((entry,i) =>
+									<li key={i}>
+										{entry.date.toString().substring(0,10)}: {entry.value}Kg
+										<button onClick={() => this.deleteEntry(entry)}>Delete</button>
+									</li>
+								)}
+							</ol>
+						
+						</div>
+						<button onClick={this.clearEntries} >Clear all</button>
+						<button onClick={this.saveData} >
+							<a download="entries.json" href={this.state.url}>Save data</a>
+						</button>
+						
+					</div>
+					<div className="chart-container">
+						{this.state.user && <Chart data={this.state.user.entries} />}
+					</div>
 				</div>
-				<div>
-					<ul>
-						{entries && entries.length > 0 && entries.map((entry,i) =>
-							<li key={i}>
-								{entry.date.toString().substring(0,10)}: {entry.value}Kg
-								<button onClick={() => this.deleteEntry(entry)}>Delete</button>
-							</li>
-						)}
-					</ul>
-				</div>
-				<button onClick={this.clearEntries} >Clear all</button>
-				<button onClick={this.saveData} >
-					<a download="entries.json" href={this.state.url}>Save data</a>
-				</button>
+
 			</React.Fragment>);
 	}
 }
