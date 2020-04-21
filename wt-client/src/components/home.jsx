@@ -1,6 +1,12 @@
 import React,{ Component } from 'react';
 import Chart from './chart';
 
+// import { faTrash } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+
 class Home extends Component {
 
 	state = {
@@ -125,35 +131,38 @@ class Home extends Component {
 		return (
 			<React.Fragment>
 				<nav className="navbar navbar-dark bg-dark">
-					<span className="navbar-brand mb-0 h1">Navbar</span>
-					<button onClick={this.logout}>Log out</button>
+					<span className="navbar-brand mb-0 h1">Weight-Tracker</span>
+					<button className="btn btn-light" onClick={this.logout}>Log out</button>
 				</nav>
-				<div className="container">
-					<h1>Welcome home, {this.state.user !== null && this.state.user.name}.</h1>
+				<div className="main-container">
 					
 					<div className="data-container">
 						<div>
-							<label>Enter weight</label>
-							<input type="text" value={this.state.value} onChange={this.handleInputChange} />
-							<input type="date" value={this.state.date} max={this.state.today} onChange={this.handleDateChange} />
-							{this.state.value > 0 && <button onClick={this.addEntry}>Add</button>}
+							<input className="ml-4" type="number" min="0" placeholder="Enter weight" value={this.state.value} onChange={this.handleInputChange} />
+							<br/>
+							<input className="ml-4 mt-2" type="date" value={this.state.date} max={this.state.today} onChange={this.handleDateChange} />
+							{this.state.value > 0 && <button className="btn btn-primary ml-3" onClick={this.addEntry}>Add</button>}
 						</div>
 						
-						<div>
-							<ol>
+						<div className="entries ml-3 mt-3">
+							<ul>
 								{entries && entries.length > 0 && entries.map((entry,i) =>
 									<li key={i}>
 										{entry.date.toString().substring(0,10)}: {entry.value}Kg
-										<button onClick={() => this.deleteEntry(entry)}>Delete</button>
+										<button className="delete-btn btn btn-danger ml-2 p-1" onClick={() => this.deleteEntry(entry)}>
+											<FontAwesomeIcon icon={faTrash} size="1x" />
+										</button>
 									</li>
 								)}
-							</ol>
+							</ul>
 						
 						</div>
-						<button onClick={this.clearEntries} >Clear all</button>
-						<button onClick={this.saveData} >
-							<a download="entries.json" href={this.state.url}>Save data</a>
-						</button>
+						<div className="btns">
+							<button className="btn btn-danger mr-2 p-1" onClick={this.clearEntries} >Clear all</button>
+							<button className="btn btn-info p-1" onClick={this.saveData} >
+								<a download="entries.json" href={this.state.url}>Save data</a>
+							</button>
+						</div>
 						
 					</div>
 					<div className="chart-container">

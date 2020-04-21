@@ -30,7 +30,7 @@ class Chart extends Component {
 					{values: null}
 				]
 			};
-			
+
 			chartConfig.series[0].values = this.updateValues(this.props.data);
 			
 			this.setState({ chartConfig });
@@ -46,10 +46,7 @@ class Chart extends Component {
 
 	render() { 
 		return (
-			<React.Fragment>
-				{this.state.chartConfig.series[0].values.length} {/* state here is also up to date */}
-				<ZingChart ref={this.chart} data={this.state.chartConfig} complete={this.chartDone} />
-			</React.Fragment>
+			<ZingChart ref={this.chart} data={this.state.chartConfig} complete={this.chartDone} />
 		);
 	}
 
