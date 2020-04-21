@@ -5,7 +5,7 @@ export default class Login extends Component {
 
 	state = { 
 		username : '',
-		password : 'pass'
+		password : ''
 	}
 	
 	handleInputChange = e => {
