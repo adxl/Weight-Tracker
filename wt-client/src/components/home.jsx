@@ -120,12 +120,22 @@ class Home extends Component {
 		this.setState({date: today,today});
 	}
 
+	formatDate(date) {
+		const day = date.substring(8,10);
+		const month = date.substring(5,7);
+		const year = date.substring(0,4);
+		
+		return day + '-' + month + '-' + year; 
+	}
+
 	render() { 
 		const { user } = this.state;
 		let entries;
 		if (user !== null && user.entries.length > 0) {
 			entries = [...user.entries];
-			entries.reverse();
+			entries.sort(function (a,b) {
+				return new Date(b.date) - new Date(a.date);
+			});
 		}
 
 		return (
@@ -149,7 +159,7 @@ class Home extends Component {
 								<ul>
 									{entries.map((entry,i) =>
 										<li key={i}>
-											{entry.date.toString().substring(0,10)}: {entry.value}Kg
+											{this.formatDate(entry.date)}: {entry.value}Kg
 											<button className="delete-btn btn btn-danger ml-2 p-1" onClick={() => this.deleteEntry(entry)}>
 												<FontAwesomeIcon icon={faTrash} size="1x" />
 											</button>
@@ -167,7 +177,7 @@ class Home extends Component {
 						
 					</div>
 					<div className="chart-container">
-						{this.state.user && <Chart data={this.state.user.entries} />}
+						{entries && <Chart data={entries.reverse()} />}
 					</div>
 				</div>
 

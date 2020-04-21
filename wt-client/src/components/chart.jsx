@@ -65,19 +65,21 @@ class Chart extends Component {
 	}
 
 	updateValues(data) {
-		return data.map((entry,i) => [entry.date.substring(0,10),data[i].value]);
+		return data.map((entry,i) => [this.formatDate(entry.date),data[i].value]);
+	}
+
+	formatDate(date) {
+		const day = date.substring(8,10);
+		const month = date.substring(5,7);
+	
+		return day + '-' + month; 
 	}
 
 	render() { 
 		return (
-			<ZingChart ref={this.chart} data={this.state.chartConfig} complete={this.chartDone} />
+			<ZingChart ref={this.chart} data={this.state.chartConfig}/>
 		);
 	}
-
-	chartDone(event) {
-		console.log('Event "Complete" - The chart is rendered\n');
-	}
-
 }
  
 export default Chart;
