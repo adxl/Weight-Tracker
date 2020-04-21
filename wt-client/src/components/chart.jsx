@@ -23,7 +23,14 @@ class Chart extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.data !== prevProps.data) {
-			const chartConfig = { ...this.state.chartConfig };
+
+			const chartConfig = {
+				type: 'area',
+				series: [
+					{values: null}
+				]
+			};
+			
 			chartConfig.series[0].values = this.updateValues(this.props.data);
 			
 			this.setState({ chartConfig });
