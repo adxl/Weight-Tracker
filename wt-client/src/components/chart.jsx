@@ -21,9 +21,9 @@ class Chart extends Component {
 						'alpha-area': 0.6,
 						marker: {
 							'background-color': '#1DDB00',/* hexadecimal or RGB value */
-							size: 2,
-							'border-color': '#1DDB00',
-							'border-width': 2
+							size: 4,
+							'border-color': '#FFFFFF',
+							'border-width': 1
 						}
 					}
 				]
@@ -39,7 +39,19 @@ class Chart extends Component {
 			const chartConfig = {
 				type: 'area',
 				series: [
-					{values: null}
+					{
+						values: null,
+						'line-color': '#1DDB00',
+						'line-width' : 2,
+						'background-color': '#1DDB00 #FFFFFF',
+						'alpha-area': 0.6,
+						marker: {
+							'background-color': '#1DDB00',/* hexadecimal or RGB value */
+							size: 4,
+							'border-color': '#FFF',
+							'border-width': 1
+						}
+					}
 				]
 			};
 
