@@ -67,3 +67,10 @@ body {
   text-decoration: none;
   color: white;
 }
+
+.date-input{
+  border: none;
+  border: solid 1px rgb(228, 228, 228);
+  border-radius: 8px;
+  padding:5px;
+}

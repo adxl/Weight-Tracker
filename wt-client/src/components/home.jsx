@@ -150,7 +150,7 @@ class Home extends Component {
 						<div>
 							<input className="ml-4" type="number" min="0" placeholder="Enter weight" value={this.state.value} onChange={this.handleInputChange} />
 							<br/>
-							<input className="ml-4 mt-2" type="date" value={this.state.date} max={this.state.today} onChange={this.handleDateChange} />
+							<input className=" date-input ml-4 mt-2" type="date" value={this.state.date} max={this.state.today} onChange={this.handleDateChange} />
 							{this.state.value > 0 && <button className="btn btn-primary ml-3" onClick={this.addEntry}>Add</button>}
 						</div>
 						{entries && entries.length > 0 && 
