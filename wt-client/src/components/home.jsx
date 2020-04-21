@@ -143,26 +143,29 @@ class Home extends Component {
 							<input className="ml-4 mt-2" type="date" value={this.state.date} max={this.state.today} onChange={this.handleDateChange} />
 							{this.state.value > 0 && <button className="btn btn-primary ml-3" onClick={this.addEntry}>Add</button>}
 						</div>
-						
-						<div className="entries ml-3 mt-3">
-							<ul>
-								{entries && entries.length > 0 && entries.map((entry,i) =>
-									<li key={i}>
-										{entry.date.toString().substring(0,10)}: {entry.value}Kg
-										<button className="delete-btn btn btn-danger ml-2 p-1" onClick={() => this.deleteEntry(entry)}>
-											<FontAwesomeIcon icon={faTrash} size="1x" />
-										</button>
-									</li>
-								)}
-							</ul>
-						
+						{entries && entries.length > 0 && 
+						<div>
+							<div className="entries ml-3 mt-3">
+								<ul>
+									{entries.map((entry,i) =>
+										<li key={i}>
+											{entry.date.toString().substring(0,10)}: {entry.value}Kg
+											<button className="delete-btn btn btn-danger ml-2 p-1" onClick={() => this.deleteEntry(entry)}>
+												<FontAwesomeIcon icon={faTrash} size="1x" />
+											</button>
+										</li>
+									)}
+								</ul>
+							
+							</div>
+							 <div className="btns">
+								<button className="btn btn-danger mr-2 p-1" onClick={this.clearEntries} >Clear all</button>
+								<button className="btn btn-info p-1" onClick={this.saveData} >
+									<a download="entries.json" href={this.state.url}>Save data</a>
+								</button>
+							</div>
 						</div>
-						<div className="btns">
-							<button className="btn btn-danger mr-2 p-1" onClick={this.clearEntries} >Clear all</button>
-							<button className="btn btn-info p-1" onClick={this.saveData} >
-								<a download="entries.json" href={this.state.url}>Save data</a>
-							</button>
-						</div>
+						}
 						
 					</div>
 					<div className="chart-container">
