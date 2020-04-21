@@ -13,7 +13,19 @@ class Chart extends Component {
 			chartConfig: {
 				type: 'area',
 				series: [
-					{values: this.updateValues(data)}
+					{
+						values: this.updateValues(data),
+						'line-color': '#1DDB00',
+						'line-width' : 2,
+						'background-color': '#1DDB00 #FFFFFF',
+						'alpha-area': 0.6,
+						marker: {
+							'background-color': '#1DDB00',/* hexadecimal or RGB value */
+							size: 2,
+							'border-color': '#1DDB00',
+							'border-width': 2
+						}
+					}
 				]
 			}
 		};

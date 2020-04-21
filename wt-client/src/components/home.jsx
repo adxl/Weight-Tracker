@@ -156,16 +156,14 @@ class Home extends Component {
 										</li>
 									)}
 								</ul>
-							
 							</div>
-							 <div className="btns">
+							<div className="btns">
 								<button className="btn btn-danger mr-2 p-1" onClick={this.clearEntries} >Clear all</button>
 								<button className="btn btn-info p-1" onClick={this.saveData} >
 									<a download="entries.json" href={this.state.url}>Save data</a>
 								</button>
 							</div>
-						</div>
-						}
+						</div>}
 						
 					</div>
 					<div className="chart-container">
